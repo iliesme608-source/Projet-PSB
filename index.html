@@ -61,7 +61,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .sec-title{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
 .sec-icon{font-size:2rem;line-height:1}
 .sec-title h2{font-size:1.1rem;font-weight:800}
-.sec-title p{font-size:.8rem;color:var(--muted);margin-top:3px;max-width:620px;line-height:1.6}
+.sec-title p{font-size:.8rem;color:var(--muted);margin-top:3px;max-width:650px;line-height:1.6}
  
 /* ── INSIGHT STRIP (3 takeaways) ── */
 .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
@@ -93,7 +93,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .ccard{background:var(--card);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow)}
 .ccard-hdr{margin-bottom:14px}
 .ccard-hdr h3{font-size:.9rem;font-weight:800;color:var(--text)}
-.ccard-hdr p{font-size:.73rem;color:var(--muted);margin-top:3px;line-height:1.4}
+.ccard-hdr p{font-size:.73rem;color:var(--muted);margin-top:3px;line-height:1.45}
 .hint{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;color:var(--muted);background:var(--bg);border-radius:6px;padding:3px 8px;margin-top:6px}
 .cwrap{position:relative;height:280px}
 .cwrap-md{position:relative;height:230px}
@@ -110,7 +110,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .reco-item strong{font-size:.73rem;font-weight:800;color:var(--eu);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
 .reco-item span{font-size:.79rem;color:var(--text);line-height:1.6}
  
- 
 /* ── CHART CAPTIONS ── */
 .chart-caption{margin-top:12px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:0 6px 6px 0;font-size:.78rem;color:#475569;line-height:1.6}
 .chart-caption strong{color:var(--text);font-weight:700}
@@ -120,7 +119,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .chart-caption.cap-yellow{border-color:var(--yellow);background:#fffbe6}
  
 /* ── POPUP ── */
-#pop{position:fixed;background:var(--card);border-radius:12px;padding:18px 20px;width:300px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:none;z-index:9999;pointer-events:none;transition:opacity .1s}
+#pop{position:fixed;background:var(--card);border-radius:12px;padding:18px 20px;width:310px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:none;z-index:9999;pointer-events:none;transition:opacity .1s}
 #pop .p-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:20px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
 #pop .p-name{font-size:.92rem;font-weight:800;color:var(--text);margin-bottom:4px}
 #pop .p-val{font-size:1.6rem;font-weight:900;margin-bottom:8px}
@@ -157,21 +156,21 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 <div class="kpi-strip">
   <div class="kpi kc">
     <div class="kpi-icon">📊</div>
-    <div class="kpi-label">Concurrence — Offres médianes</div>
+    <div class="kpi-label">Concurrence — Niveau central</div>
     <div class="kpi-value">3</div>
-    <div class="kpi-insight">offres par marché en médiane — <strong>28,4% des marchés n'ont reçu qu'1 seule offre</strong>, exposant la Commission à des prix non-optimaux</div>
+    <div class="kpi-insight"><strong>Lecture :</strong> un marché reçoit en médiane 3 offres. Mais <strong>28,4% des marchés n'ont qu'une seule offre</strong> : dans ces cas, la concurrence est quasi absente.</div>
   </div>
   <div class="kpi ks">
     <div class="kpi-icon">🏭</div>
-    <div class="kpi-label">Accès PME — Taux d'attribution</div>
+    <div class="kpi-label">PME — Accès au marché</div>
     <div class="kpi-value">54,1%</div>
-    <div class="kpi-insight">des marchés attribués à des PME (données 2015–2017) — <strong>de fortes disparités existent selon les pays et secteurs</strong></div>
+    <div class="kpi-insight"><strong>Lecture :</strong> un peu plus d'1 marché sur 2 est attribué à une PME. Le niveau global est correct, mais <strong>les écarts entre pays, procédures et secteurs restent élevés</strong>.</div>
   </div>
   <div class="kpi kv">
     <div class="kpi-icon">💶</div>
-    <div class="kpi-label">Valeur attribuée — Médiane</div>
+    <div class="kpi-label">Valeur — Marché type</div>
     <div class="kpi-value">44 780 €</div>
-    <div class="kpi-insight">valeur médiane par marché — <strong>la moyenne (1,52M€) est 34× la médiane</strong>, signe d'une forte asymétrie des grandes commandes</div>
+    <div class="kpi-insight"><strong>Lecture :</strong> la majorité des marchés restent de taille modérée, mais <strong>quelques très gros contrats tirent la moyenne vers le haut</strong> (1,52 M€ en moyenne).</div>
   </div>
 </div>
  
@@ -188,34 +187,32 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
     <div class="sec-title">
       <div class="sec-icon">📊</div>
       <div>
-        <h2>Variable 1 : NUMBER_OFFERS — Niveau de concurrence</h2>
-        <p>Le nombre d'offres reçues par marché mesure directement la concurrence. 1 seule offre = aucune mise en concurrence réelle, risque de surcoût et de captation de la commande publique. Cette variable est le premier indicateur de la santé du système de marchés publics européen.</p>
+        <h2>Concurrence : combien d'offres reçoivent les marchés ?</h2>
+        <p>Le nombre d'offres reçues mesure le niveau réel de concurrence. Plus ce nombre est élevé, plus l'acheteur public a de chances d'obtenir un bon prix et une offre adaptée. Quand un marché ne reçoit qu'une seule offre, le choix est très limité.</p>
       </div>
     </div>
   </div>
  
-  <!-- 3 Takeaways -->
   <div class="insights">
     <div class="ins-card ic">
       <div class="ins-num">28,4%</div>
-      <div class="ins-label">⚠️ Marchés non-concurrentiels</div>
-      <div class="ins-text">Plus d'1 marché sur 4 ne reçoit qu'une seule offre — absence totale de mise en concurrence réelle.</div>
+      <div class="ins-label">⚠️ Une seule offre</div>
+      <div class="ins-text">Plus d'1 marché sur 4 se termine sans vraie concurrence. C'est la principale zone de risque à réduire.</div>
     </div>
     <div class="ins-card ic">
       <div class="ins-num">23%</div>
-      <div class="ins-label">🏆 Très bonne concurrence</div>
-      <div class="ins-text">23% des marchés reçoivent 6 offres ou plus — principalement les procédures ouvertes dans les petits contrats.</div>
+      <div class="ins-label">✅ Forte concurrence</div>
+      <div class="ins-text">23% des marchés reçoivent 6 offres ou plus. Cela prouve qu'une concurrence forte est possible dans certains segments.</div>
     </div>
     <div class="ins-card io">
-      <div class="ins-num">+30,8%</div>
-      <div class="ins-label">📈 Tendance 2017</div>
-      <div class="ins-text">En 2017, le taux de non-concurrence atteint son plus haut niveau (30,8%), en hausse depuis 2009 (25,5%).</div>
+      <div class="ins-num">30,8%</div>
+      <div class="ins-label">📈 Niveau atteint en 2017</div>
+      <div class="ins-text">La part des marchés avec une seule offre reste élevée en fin de période. Le sujet n'est donc pas résolu.</div>
     </div>
   </div>
  
-  <!-- View filter -->
   <div class="view-bar">
-    <span>Analyser par :</span>
+    <span>Comparer :</span>
     <button class="btn-view av active" data-view="proc" data-axis="off">Par procédure</button>
     <button class="btn-view av" data-view="country" data-axis="off">Par pays</button>
     <button class="btn-view av" data-view="cpv" data-axis="off">Par secteur CPV</button>
@@ -226,50 +223,50 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   <div class="charts-grid">
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3 id="t1-title">Offres médianes par procédure</h3>
-        <p id="t1-sub">Nombre d'offres reçues en médiane selon le type de procédure utilisée</p>
-        <div class="hint">💡 Cliquez sur une barre pour l'analyse détaillée</div>
+        <h3 id="t1-title">Quelles procédures attirent le plus d'offres ?</h3>
+        <p id="t1-sub">Chaque barre montre le nombre d'offres médian. Plus la barre est haute, plus la concurrence est forte.</p>
+        <div class="hint">💡 Cliquez sur une barre pour voir l'interprétation</div>
       </div>
       <div class="cwrap"><canvas id="chartOff"></canvas></div>
-      <div class="chart-caption cap-blue" id="cap-off"><strong>Ce que cela signifie :</strong> La procédure restreinte génère le plus d’offres (4 en médiane), tandis que les procédures négociées sans concurrence n’en reçoivent qu’une seule. Chaque procédure négociée sans justification est un marché dont le prix n’a pas été testé par le marché.</div>
+      <div class="chart-caption cap-blue" id="cap-off"><strong>À retenir :</strong> les procédures restreintes sont ici les plus concurrentielles, alors que les procédures négociées sans concurrence restent au niveau le plus faible. Le choix de procédure influence donc directement l'intensité concurrentielle.</div>
     </div>
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3>Distribution de la concurrence</h3>
-        <p>Répartition de tous les marchés selon leur nombre d'offres reçues</p>
+        <h3>Quelle part des marchés est vraiment concurrentielle ?</h3>
+        <p>Répartition de tous les marchés selon le nombre d'offres reçues. L'objectif est de limiter la part à 1 seule offre.</p>
       </div>
       <div class="cwrap-md"><canvas id="chartDist"></canvas></div>
-      <div class="chart-caption cap-yellow"><strong>Ce que cela signifie :</strong> Plus d’1 marché sur 4 (28,4%) n’a reçu qu’une seule offre — aucune compétition réelle, aucun test de prix. À l’opposé, 23% des marchés reçoivent 6 offres ou plus, prouvant qu’une vraie concurrence est possible quand les conditions sont réunies.</div>
+      <div class="chart-caption cap-yellow"><strong>À retenir :</strong> 28,4% des marchés n'ont reçu qu'une seule offre. À l'inverse, près d'1 marché sur 4 reçoit 6 offres ou plus. L'enjeu politique est donc de déplacer davantage de marchés vers les zones de concurrence forte.</div>
     </div>
   </div>
  
   <div class="ccard chart-full" style="margin-bottom:16px">
     <div class="ccard-hdr">
-      <h3>Évolution du taux de non-concurrence — 2009 à 2017</h3>
-      <p>Part des marchés ayant reçu une seule offre chaque année. Une tendance à la hausse structurelle est observée.</p>
+      <h3>Le problème des marchés à une seule offre recule-t-il ?</h3>
+      <p>Évolution annuelle de la part des marchés avec une seule offre. Plus la courbe monte, plus le risque concurrentiel augmente.</p>
     </div>
     <div class="cwrap-sm"><canvas id="chartNcTrend"></canvas></div>
-    <div class="chart-caption cap-yellow"><strong>Ce que cela signifie :</strong> Le taux de marchés non-concurrentiels augmente chaque année — de 25,5% en 2009 à 30,8% en 2017. Ce n’est pas une fluctuation : c’est une tendance structurelle qui indique que les réformes engagées n’ont pas encore inversé la dynamique.</div>
+    <div class="chart-caption cap-yellow"><strong>À retenir :</strong> la part des marchés à une seule offre reste durablement élevée sur la période. Cela confirme un problème structurel, pas un simple accident ponctuel.</div>
   </div>
  
   <div class="reco">
     <h3>💡 Recommandations stratégiques — Concurrence des offres</h3>
     <div class="reco-grid">
       <div class="reco-item">
-        <strong>Encadrer les procédures négociées</strong>
-        <span>Les procédures négociées sans concurrence génèrent systématiquement 1 seule offre. Imposer des seuils de valeur stricts et exiger des justifications documentées pour tout recours à ces procédures.</span>
+        <strong>Limiter les procédures les moins ouvertes</strong>
+        <span>Les procédures qui aboutissent à 1 ou 2 offres doivent être davantage justifiées et suivies, car elles réduisent fortement la concurrence.</span>
       </div>
       <div class="reco-item">
-        <strong>Généraliser les procédures ouvertes</strong>
-        <span>La procédure ouverte génère 3 offres en médiane. Augmenter son recours pour les marchés de valeur intermédiaire (50K€–500K€) améliorerait mécaniquement le taux de concurrence.</span>
+        <strong>Étendre les formats qui attirent plus d'offres</strong>
+        <span>Les procédures les plus ouvertes ou les mieux cadrées doivent être privilégiées sur les marchés où la concurrence est recherchée.</span>
       </div>
       <div class="reco-item">
-        <strong>Cibler les secteurs sous-concurrentiels</strong>
-        <span>Architecture/Ingénierie et Travaux de construction affichent les meilleures médianes. Analyser les secteurs à faible concurrence pour identifier les barrières à l'entrée spécifiques.</span>
+        <strong>Cibler les segments faibles</strong>
+        <span>Comparer pays, secteurs et types de contrats permet d'identifier où la concurrence est la plus faible et où les actions doivent être concentrées.</span>
       </div>
       <div class="reco-item">
-        <strong>Benchmarker les pays performants</strong>
-        <span>L'Irlande, la Grèce et la Suisse affichent 5 à 6 offres en médiane. Analyser leurs pratiques de publication et de simplification pour les diffuser à l'échelle européenne.</span>
+        <strong>Fixer un indicateur de suivi simple</strong>
+        <span>Suivre chaque année la part des marchés à une seule offre permet d'évaluer rapidement si la politique d'achat devient plus concurrentielle.</span>
       </div>
     </div>
   </div>
@@ -281,37 +278,34 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
     <div class="sec-title">
       <div class="sec-icon">🏭</div>
       <div>
-        <h2>Variable 2 : B_CONTRACTOR_SME — Accès des PME aux marchés publics</h2>
-        <p>Indique si le marché a été attribué à une Petite ou Moyenne Entreprise. Le taux PME mesure l'ouverture réelle du système à des acteurs de taille modeste, enjeu clé de la politique industrielle européenne (directive 2014/24/UE). Des disparités importantes existent entre pays, secteurs et types de procédures.</p>
+        <h2>PME : dans quels cas gagnent-elles davantage ?</h2>
+        <p>Cette analyse montre dans quelle mesure les petites et moyennes entreprises accèdent réellement aux marchés publics. Plus le taux PME est élevé, plus le système est ouvert aux entreprises de taille modeste.</p>
       </div>
     </div>
   </div>
  
-  <div class="disclaimer">⚠️ <strong>Note méthodologique :</strong> La variable B_CONTRACTOR_SME n'est disponible que pour 313 017 marchés (14% du total), principalement à partir de 2015. Les taux sont calculés sur ce sous-échantillon uniquement.
-  </div>
+  <div class="disclaimer">⚠️ <strong>Note importante :</strong> la variable PME n'est disponible que pour 313 017 marchés, soit 14% du total, principalement à partir de 2015. Les résultats PME doivent donc être lus comme une tendance sur ce sous-échantillon.</div>
  
-  <!-- 3 Takeaways -->
   <div class="insights">
     <div class="ins-card is">
       <div class="ins-num">54,5%</div>
-      <div class="ins-label">✅ Taux PME global</div>
-      <div class="ins-text">Plus d'1 marché sur 2 est attribué à une PME — un niveau encourageant, mais avec de fortes inégalités selon les pays.</div>
+      <div class="ins-label">✅ Niveau global</div>
+      <div class="ins-text">Au global, un peu plus d'1 marché sur 2 est attribué à une PME.</div>
     </div>
     <div class="ins-card is">
       <div class="ins-num">100%</div>
-      <div class="ins-label">🏆 Meilleure performance</div>
-      <div class="ins-text">La Suisse atteint 100% et Malte 90% de taux PME — des marchés structurés pour favoriser les acteurs locaux de taille réduite.</div>
+      <div class="ins-label">🏆 Meilleur pays observé</div>
+      <div class="ins-text">Certains pays montrent qu'un accès très fort des PME est possible selon l'organisation du marché public.</div>
     </div>
     <div class="ins-card iv">
       <div class="ins-num">25,5%</div>
-      <div class="ins-label">🔴 Dialogue compétitif</div>
-      <div class="ins-text">La procédure de dialogue compétitif n'attribue qu'1 marché sur 4 à une PME — complexité administrative et capitaux requis trop élevés.</div>
+      <div class="ins-label">🔴 Procédure la moins favorable</div>
+      <div class="ins-text">Certaines procédures restent nettement moins accessibles aux PME, notamment les plus complexes.</div>
     </div>
   </div>
  
-  <!-- View filter -->
   <div class="view-bar">
-    <span>Analyser par :</span>
+    <span>Comparer :</span>
     <button class="btn-view ag active" data-view="proc" data-axis="sme">Par procédure</button>
     <button class="btn-view ag" data-view="country" data-axis="sme">Par pays</button>
     <button class="btn-view ag" data-view="cpv" data-axis="sme">Par secteur CPV</button>
@@ -322,50 +316,50 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   <div class="charts-grid">
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3 id="t2-title">Taux PME par procédure (%)</h3>
-        <p id="t2-sub">Part des marchés attribués à des PME selon le type de procédure utilisée</p>
-        <div class="hint">💡 Cliquez sur une barre pour l'analyse détaillée</div>
+        <h3 id="t2-title">Quelles procédures sont les plus favorables aux PME ?</h3>
+        <p id="t2-sub">Chaque barre indique la part de marchés attribués à une PME. Plus la barre est haute, plus le segment est accessible aux PME.</p>
+        <div class="hint">💡 Cliquez sur une barre pour voir l'interprétation</div>
       </div>
       <div class="cwrap"><canvas id="chartSme"></canvas></div>
-      <div class="chart-caption cap-green" id="cap-sme"><strong>Ce que cela signifie :</strong> Le dialogue compétitif — procédure la plus complexe — n’attribue que 25,5% de ses marchés à des PME. Les procédures ouvertes et les attributions directes sont bien plus accessibles (54–59%). La complexité administrative est la première barrière pour les petites entreprises.</div>
+      <div class="chart-caption cap-green" id="cap-sme"><strong>À retenir :</strong> les procédures les plus simples ou les plus directes apparaissent ici comme les plus favorables aux PME. Les procédures complexes réduisent leur accès.</div>
     </div>
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3>Évolution du taux PME — 2015 à 2017</h3>
-        <p>Progression du taux d'accès PME sur les 3 années avec données disponibles</p>
+        <h3>L'accès des PME progresse-t-il ?</h3>
+        <p>Évolution du taux PME sur les années disponibles. Plus la courbe monte, plus la commande publique s'ouvre aux PME.</p>
       </div>
       <div class="cwrap-md"><canvas id="chartSmeTrend"></canvas></div>
-      <div class="chart-caption cap-green"><strong>Ce que cela signifie :</strong> En seulement 2 ans (2015–2017), le taux PME est passé de 23,4% à 55,1%. Cette progression rapide suggère l’effet des réformes de la directive 2014/24/UE, mais les données antérieures à 2015 manquent pour confirmer la tendance.</div>
+      <div class="chart-caption cap-green"><strong>À retenir :</strong> le taux PME augmente nettement entre 2015 et 2017 sur les données disponibles. Le mouvement est positif, mais il doit être interprété avec prudence à cause du manque d'historique avant 2015.</div>
     </div>
   </div>
  
   <div class="ccard chart-full" style="margin-bottom:16px">
     <div class="ccard-hdr">
-      <h3>Taux PME par secteur CPV — Top 12 secteurs</h3>
-      <p>Les secteurs où les PME sont les plus et les moins présentes en tant qu'attributaires</p>
+      <h3>Quels secteurs sont les plus ouverts aux PME ?</h3>
+      <p>Comparaison des taux PME par secteur. Cela permet d'identifier où l'accès est facile et où il reste bloqué.</p>
     </div>
     <div class="cwrap-sm"><canvas id="chartSmeCpv"></canvas></div>
-    <div class="chart-caption cap-green"><strong>Ce que cela signifie :</strong> L’agriculture, les mines et l’alimentation sont les secteurs les plus accessibles aux PME (65–79%). Les secteurs à forte technicié comme l’IT ou l’ingénierie restent plus fermés. Allotir les marchés en lots de taille réduite permettrait d’ouvrir ces secteurs aux PME innovantes.</div>
+    <div class="chart-caption cap-green"><strong>À retenir :</strong> certains secteurs sont nettement plus ouverts aux PME que d'autres. Les secteurs les moins accessibles doivent être ciblés en priorité par des mesures de simplification ou d'allotissement.</div>
   </div>
  
   <div class="reco">
     <h3>💡 Recommandations stratégiques — Accès PME</h3>
     <div class="reco-grid">
       <div class="reco-item">
-        <strong>Simplifier les procédures complexes</strong>
-        <span>Le dialogue compétitif exclut les PME (25,5% seulement). Créer des variantes simplifiées avec des exigences de capacité proportionnées au volume des marchés visés.</span>
+        <strong>Simplifier les procédures les moins accessibles</strong>
+        <span>Quand une procédure affiche un faible taux PME, cela peut signaler des exigences trop lourdes ou une complexité excessive.</span>
       </div>
       <div class="reco-item">
-        <strong>Promouvoir le critère MEAT</strong>
-        <span>L'offre économiquement avantageuse favorise davantage les PME innovantes que le seul critère prix, qui favorise mécaniquement les grandes structures à économies d'échelle.</span>
+        <strong>Réduire la taille des marchés quand c'est possible</strong>
+        <span>L'allotissement permet à des entreprises plus petites de candidater sur une partie du besoin au lieu d'un marché trop large.</span>
       </div>
       <div class="reco-item">
-        <strong>Allotissement systématique</strong>
-        <span>Diviser les grands marchés en lots cohérents pour permettre aux PME de candidater sur des périmètres accessibles, comme prévu par l'article 46 de la directive 2014/24/UE.</span>
+        <strong>Repérer les secteurs fermés</strong>
+        <span>Les secteurs où le taux PME est faible doivent faire l'objet d'actions ciblées : délais, critères, exigences financières ou techniques.</span>
       </div>
       <div class="reco-item">
-        <strong>Benchmark pays performants</strong>
-        <span>La Suisse, Malte, Chypre et la Slovénie dépassent 70% de taux PME. Analyser leurs pratiques (seuils, délais, allotissement) pour produire un guide de bonnes pratiques européen.</span>
+        <strong>Suivre un KPI simple</strong>
+        <span>Le taux PME par procédure et par secteur peut devenir un indicateur régulier de l'ouverture économique de la commande publique.</span>
       </div>
     </div>
   </div>
@@ -377,34 +371,32 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
     <div class="sec-title">
       <div class="sec-icon">💶</div>
       <div>
-        <h2>Variable 3 : AWARD_VALUE_EURO — Valeur attribuée des marchés</h2>
-        <p>Valeur en euros du marché attribué. La médiane (44 780€) est utilisée pour neutraliser l'effet des grands contrats atypiques — la moyenne est 34× plus élevée. Analyser la valeur par segment révèle l'efficience de la dépense publique et les secteurs où le coût administratif est disproportionné.</p>
+        <h2>Valeur des marchés : où se concentrent les montants ?</h2>
+        <p>La valeur attribuée permet d'identifier où se concentrent les enjeux budgétaires. La médiane est utilisée ici pour représenter un marché “typique”, sans être déformée par quelques contrats exceptionnellement élevés.</p>
       </div>
     </div>
   </div>
  
-  <!-- 3 Takeaways -->
   <div class="insights">
     <div class="ins-card iv">
       <div class="ins-num">1,27M€</div>
-      <div class="ins-label">💰 Dialogue compétitif</div>
-      <div class="ins-text">La procédure la plus chère en médiane — 28× la médiane globale. Ces contrats concentrent la dépense la plus importante et nécessitent un suivi renforcé.</div>
+      <div class="ins-label">💰 Procédure la plus coûteuse</div>
+      <div class="ins-text">Certaines procédures concentrent des marchés très élevés et doivent donc faire l'objet d'un contrôle renforcé.</div>
     </div>
     <div class="ins-card iv">
       <div class="ins-num">350K€</div>
-      <div class="ins-label">💻 IT — Secteur le plus cher</div>
-      <div class="ins-text">Les services informatiques concentrent les marchés de valeur médiane la plus élevée — 7,8× la médiane globale toutes catégories confondues.</div>
+      <div class="ins-label">💻 Secteur le plus élevé</div>
+      <div class="ins-text">Les marchés IT figurent parmi les plus élevés en médiane, ce qui en fait un levier important d'efficience budgétaire.</div>
     </div>
     <div class="ins-card io">
       <div class="ins-num">-39%</div>
-      <div class="ins-label">📉 Baisse 2009–2014</div>
-      <div class="ins-text">La valeur médiane a chuté de 63K€ à 39K€ entre 2009 et 2014 sous l'effet de la crise et des politiques d'austérité, avant de se redresser.</div>
+      <div class="ins-label">📉 Baisse observée 2009–2014</div>
+      <div class="ins-text">La taille médiane des marchés diminue fortement après la crise, puis repart partiellement à la hausse.</div>
     </div>
   </div>
  
-  <!-- View filter -->
   <div class="view-bar">
-    <span>Analyser par :</span>
+    <span>Comparer :</span>
     <button class="btn-view ar active" data-view="proc" data-axis="val">Par procédure</button>
     <button class="btn-view ar" data-view="country" data-axis="val">Par pays</button>
     <button class="btn-view ar" data-view="cpv" data-axis="val">Par secteur CPV</button>
@@ -415,50 +407,50 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   <div class="charts-grid">
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3 id="t3-title">Valeur médiane par procédure (€)</h3>
-        <p id="t3-sub">Valeur médiane des marchés attribués selon le type de procédure utilisée</p>
-        <div class="hint">💡 Cliquez sur une barre pour l'analyse détaillée</div>
+        <h3 id="t3-title">Quelles procédures portent les marchés les plus élevés ?</h3>
+        <p id="t3-sub">Chaque barre montre la valeur médiane d'un marché. Plus la barre est haute, plus les montants engagés sont importants.</p>
+        <div class="hint">💡 Cliquez sur une barre pour voir l'interprétation</div>
       </div>
       <div class="cwrap"><canvas id="chartVal"></canvas></div>
-      <div class="chart-caption cap-red" id="cap-val"><strong>Ce que cela signifie :</strong> Le dialogue compétitif concentre les plus grands marchés (1,27M€ en médiane, soit 28× la médiane globale). À l’opposé, la procédure ouverte reste le format des petits contrats (37K€). Le choix de la procédure détermine donc directement la taille du marché.</div>
+      <div class="chart-caption cap-red" id="cap-val"><strong>À retenir :</strong> certaines procédures sont clairement associées à des marchés beaucoup plus élevés que les autres. Ce sont donc elles qu'il faut prioriser pour les actions de contrôle et d'efficience.</div>
     </div>
     <div class="ccard">
       <div class="ccard-hdr">
-        <h3>Évolution de la valeur médiane — 2009 à 2017</h3>
-        <p>Impact de la crise financière et des politiques d'austérité sur la valeur des marchés</p>
+        <h3>La taille des marchés change-t-elle dans le temps ?</h3>
+        <p>Évolution de la valeur médiane entre 2009 et 2017. La courbe permet d'identifier les phases de contraction et de reprise.</p>
       </div>
       <div class="cwrap-md"><canvas id="chartValTrend"></canvas></div>
-      <div class="chart-caption cap-red"><strong>Ce que cela signifie :</strong> La valeur médiane a chuté de 63K€ (2009) à 39K€ (2014), reflétant l’impact de la crise et des politiques d’austérité sur la commande publique. La remise en hausse après 2015 témoigne de la reprise progressive des investissements publics européens.</div>
+      <div class="chart-caption cap-red"><strong>À retenir :</strong> la valeur médiane baisse après la crise puis se redresse partiellement. Cela montre que le contexte économique influence directement la taille des marchés publics.</div>
     </div>
   </div>
  
   <div class="ccard chart-full" style="margin-bottom:16px">
     <div class="ccard-hdr">
-      <h3>Valeur médiane par secteur CPV — Top 12 secteurs les plus chers</h3>
-      <p>Secteurs concentrant les marchés publics de plus grande valeur médiane en Europe</p>
+      <h3>Dans quels secteurs les montants sont-ils les plus élevés ?</h3>
+      <p>Comparaison des secteurs selon la valeur médiane des marchés. Ces secteurs concentrent les principaux enjeux financiers.</p>
     </div>
     <div class="cwrap-sm"><canvas id="chartValCpv"></canvas></div>
-    <div class="chart-caption cap-red"><strong>Ce que cela signifie :</strong> Les services informatiques (350K€), l’administration publique (347K€) et les services publics (309K€) concentrent les marchés les plus chers en médiane. Ce sont ces secteurs qui justifient le plus une mise en concurrence rigoureuse — chaque gain de concurrence y représente des millions d’euros d’économies potentielles.</div>
+    <div class="chart-caption cap-red"><strong>À retenir :</strong> les secteurs les plus chers sont ceux où un gain de concurrence ou une meilleure définition du besoin peut générer le plus d'économies.</div>
   </div>
  
   <div class="reco">
     <h3>💡 Recommandations stratégiques — Valeur des marchés</h3>
     <div class="reco-grid">
       <div class="reco-item">
-        <strong>Suivi renforcé des dialogues compétitifs</strong>
-        <span>Ces marchés (médiane 1,27M€) concentrent les enjeux financiers les plus élevés. Imposer des audits ex-post systématiques et un reporting de performance pour chaque contrat.</span>
+        <strong>Renforcer le contrôle sur les segments les plus coûteux</strong>
+        <span>Les procédures et secteurs à forte valeur doivent être prioritaires pour les audits et le suivi de performance.</span>
       </div>
       <div class="reco-item">
-        <strong>Encadrer les attributions directes</strong>
-        <span>Les attributions sans mise en concurrence couvrent parfois des marchés de valeur significative. Fixer un plafond de 50K€ avec justification obligatoire au-delà pour tout recours à cette procédure.</span>
+        <strong>Surveiller les marchés élevés avec faible concurrence</strong>
+        <span>Un marché de grande valeur avec peu d'offres représente le risque budgétaire le plus important.</span>
       </div>
       <div class="reco-item">
-        <strong>Référentiels sectoriels communs</strong>
-        <span>Les écarts de valeur médiane entre pays ne s'expliquent pas uniquement par la taille des économies. Créer des prix de référence sectoriels européens pour mieux évaluer les offres reçues.</span>
+        <strong>Créer des références par secteur</strong>
+        <span>Comparer les valeurs médianes par secteur aide à détecter les zones où les montants semblent anormalement élevés.</span>
       </div>
       <div class="reco-item">
-        <strong>Optimiser les petits marchés</strong>
-        <span>Certains secteurs présentent des marchés de faible valeur (8K€–38K€) avec un coût administratif disproportionné. Développer des procédures simplifiées sous un seuil de 50K€.</span>
+        <strong>Adapter les procédures aux petits marchés</strong>
+        <span>Sur les marchés de faible valeur, il faut éviter que le coût administratif de la procédure devienne disproportionné.</span>
       </div>
     </div>
   </div>
@@ -483,12 +475,12 @@ const T = D.trends;
 // ── Formatters ────────────────────────────────────────────────────────────────
 const fmtEur = v => {
   if(v===null||v===undefined) return 'N/D';
-  if(v>=1e6) return (v/1e6).toFixed(2)+'M€';
-  if(v>=1e3) return Math.round(v/1e3)+'K€';
-  return Math.round(v)+'€';
+  if(v>=1e6) return (v/1e6).toFixed(2)+' M€';
+  if(v>=1e3) return Math.round(v/1e3)+' K€';
+  return Math.round(v)+' €';
 };
 const fmtOff = v => v===null?'N/D': v+' offre'+(v>1?'s':'');
-const fmtPct = v => v===null?'N/D': v+'%';
+const fmtPct = v => v===null?'N/D': v.toFixed ? v.toFixed(1)+'%' : v+'%';
  
 // ── Popup ─────────────────────────────────────────────────────────────────────
 function showPopup(e, name, valStr, bench, barPct, interp, tag, tagBg, tagColor, barColor){
@@ -505,7 +497,7 @@ function showPopup(e, name, valStr, bench, barPct, interp, tag, tagBg, tagColor,
   document.getElementById('pop-bar').style.width=Math.min(barPct,100)+'%';
   document.getElementById('pop-bar').style.background=barColor;
   document.getElementById('pop-interp').textContent=interp;
-  const pw=300,ph=210;
+  const pw=310,ph=215;
   let left=cx+16, top=cy-ph/2;
   if(left+pw>window.innerWidth-8) left=cx-pw-16;
   if(top<60) top=60;
@@ -521,7 +513,7 @@ Chart.defaults.plugins.tooltip.enabled=false;
 Chart.defaults.plugins.legend.display=false;
  
 // ── Chart builders ─────────────────────────────────────────────────────────────
-function makeBar(id, data, color, onClickFn){
+function makeBar(id, data, color, onClickFn, valueFormatter=(v)=>v){
   const ctx=document.getElementById(id).getContext('2d');
   return new Chart(ctx,{
     type:'bar',
@@ -543,7 +535,7 @@ function makeBar(id, data, color, onClickFn){
   });
 }
  
-function makeLine(id, labels, values, color, fmtFn){
+function makeLine(id, labels, values, color, fmtFn, axisLabel){
   const ctx=document.getElementById(id).getContext('2d');
   return new Chart(ctx,{
     type:'line',
@@ -556,12 +548,18 @@ function makeLine(id, labels, values, color, fmtFn){
       responsive:true,maintainAspectRatio:false,
       scales:{
         x:{grid:{display:false},ticks:{font:{size:11},color:'#94a3b8'}},
-        y:{grid:{color:'#f1f5f9'},ticks:{callback:v=>fmtFn(v),font:{size:11},color:'#94a3b8'}}
+        y:{
+          grid:{color:'#f1f5f9'},
+          ticks:{callback:v=>fmtFn(v),font:{size:11},color:'#94a3b8'}
+        }
       },
       plugins:{legend:{display:false},tooltip:{
         enabled:true,backgroundColor:'#fff',titleColor:'#1e2235',bodyColor:'#64748b',
         borderColor:'#e2e8f0',borderWidth:1,padding:10,
-        callbacks:{label:ctx=>' '+fmtFn(ctx.parsed.y)}
+        callbacks:{
+          title:ctx=>`Année : ${ctx[0].label}`,
+          label:ctx=>` ${axisLabel} : ${fmtFn(ctx.parsed.y)}`
+        }
       }}
     }
   });
@@ -576,7 +574,19 @@ function makeDoughnut(id, labels, values, colors){
       responsive:true,maintainAspectRatio:false,cutout:'62%',
       plugins:{
         legend:{display:true,position:'right',labels:{font:{size:11},padding:12,boxWidth:14,color:'#475569'}},
-        tooltip:{enabled:true,callbacks:{label:ctx=>` ${ctx.label} : ${ctx.parsed}%`}}
+        tooltip:{
+          enabled:true,
+          backgroundColor:'#fff',
+          titleColor:'#1e2235',
+          bodyColor:'#64748b',
+          borderColor:'#e2e8f0',
+          borderWidth:1,
+          padding:10,
+          callbacks:{
+            title:ctx=>ctx[0].label,
+            label:ctx=>` Part des marchés : ${ctx.parsed}%`
+          }
+        }
       }
     }
   });
@@ -586,35 +596,65 @@ function makeDoughnut(id, labels, values, colors){
 function offClick(e,label,val){
   const bench=ALL.kpi.med_off;
   const pct=Math.round(val/8*100);
-  const interp = val<=1?"⚠️ Marché non-concurrentiel : 1 seule offre reçue en médiane. Absence totale de mise en concurrence. Prix potentiellement surévalués.":
-    val<=2?"🔴 Concurrence très faible (moins de 2 offres). Risque de prix non-optimaux et de marchés orientés.":
-    val<=3?"🟡 Concurrence modérée (3 offres). Dans la moyenne européenne — des améliorations sont possibles.":
-    "🟢 Bonne concurrence (4+ offres). Ce segment favorise un accès ouvert et une réelle mise en compétition.";
-  showPopup(e,label,fmtOff(val),
-    `Médiane globale : ${bench} offre${bench>1?'s':''}  •  ${val>bench?'Au-dessus':'En-dessous'} de la moyenne`,
-    pct,interp,'Concurrence','#e8edf8','#003399','#003399');
+  const interp =
+    val<=1 ? "Lecture simple : ce segment reçoit généralement une seule offre. La concurrence y est donc très faible."
+    : val<=2 ? "Lecture simple : ce segment attire peu d'offres. Le pouvoir de négociation de l'acheteur reste limité."
+    : val<=3 ? "Lecture simple : ce segment se situe autour du niveau médian européen. La concurrence existe, mais peut être renforcée."
+    : "Lecture simple : ce segment attire davantage d'offres que la médiane européenne. La concurrence y est plutôt favorable.";
+  showPopup(
+    e,
+    label,
+    fmtOff(val),
+    `Référence UE : ${bench} offres en médiane`,
+    pct,
+    interp,
+    'Concurrence',
+    '#e8edf8',
+    '#003399',
+    '#003399'
+  );
 }
  
 function smeClick(e,label,val){
   const bench=ALL.kpi.sme_rate||54.5;
-  const interp = val>=70?"🟢 Très forte présence PME (70%+). Ce segment est accessible aux acteurs de taille modeste.":
-    val>=50?"🟡 Accès PME satisfaisant (50–70%). Dans la moyenne européenne — marges d'amélioration.":
-    val>=35?"🟠 Accès PME limité (35–50%). Des barrières à l'entrée probables (financières ou administratives).":
-    "🔴 Faible accès PME (<35%). Exigences probablement trop élevées — révision des critères de sélection recommandée.";
-  showPopup(e,label,fmtPct(val),
-    `Moyenne européenne : ${bench}%  •  ${val>=bench?'Au-dessus':'En-dessous'} de la moyenne`,
-    val,interp,'Accès PME','#ecfdf5','#059669','#059669');
+  const interp =
+    val>=70 ? "Lecture simple : ce segment est très favorable aux PME. Elles y remportent une part élevée des marchés."
+    : val>=50 ? "Lecture simple : ce segment est globalement accessible aux PME. Il se situe autour ou au-dessus du niveau européen."
+    : val>=35 ? "Lecture simple : l'accès des PME est limité. Des freins administratifs, techniques ou financiers peuvent exister."
+    : "Lecture simple : ce segment est difficile d'accès pour les PME. Il mérite une attention prioritaire.";
+  showPopup(
+    e,
+    label,
+    fmtPct(val),
+    `Référence UE : ${bench}% de marchés attribués à des PME`,
+    val,
+    interp,
+    'Accès PME',
+    '#ecfdf5',
+    '#059669',
+    '#059669'
+  );
 }
  
 function valClick(e,label,val){
   const bench=ALL.kpi.med_val;
   const ratio=(val/bench);
-  const interp = val>=1e6?`🔵 Marché de grande envergure (${fmtEur(val)}). ${(ratio).toFixed(1)}× la médiane globale. Suivi renforcé et audit ex-post indispensables.`:
-    val>=100000?`🟡 Marché intermédiaire (${fmtEur(val)}). ${(ratio).toFixed(1)}× la médiane — segment bien représentatif des enjeux européens.`:
-    `🟢 Petit marché (${fmtEur(val)}). Attention au coût administratif pouvant être disproportionné pour ces contrats.`;
-  showPopup(e,label,fmtEur(val),
-    `Médiane globale : ${fmtEur(bench)}  •  ${(ratio).toFixed(1)}× la médiane`,
-    Math.min(ratio/20*100,100),interp,'Valeur attribuée','#fef2f2','#dc2626','#dc2626');
+  const interp =
+    val>=1e6 ? `Lecture simple : ce segment concentre des marchés très élevés. Le niveau observé est de ${ratio.toFixed(1)} fois la médiane européenne.`
+    : val>=100000 ? `Lecture simple : ce segment porte des marchés au-dessus du niveau typique européen. L'enjeu budgétaire y est important.`
+    : `Lecture simple : ce segment correspond plutôt à des marchés de taille modérée ou faible.`;
+  showPopup(
+    e,
+    label,
+    fmtEur(val),
+    `Référence UE : médiane de ${fmtEur(bench)}`,
+    Math.min(ratio/20*100,100),
+    interp,
+    'Valeur',
+    '#fef2f2',
+    '#dc2626',
+    '#dc2626'
+  );
 }
  
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -622,24 +662,22 @@ const charts = {};
  
 // ── Init all charts ───────────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
-  // Tab 1
   charts.off = makeBar('chartOff', ALL.offers.proc, '#003399', offClick);
   const dist=ALL.offers.dist;
   charts.dist = makeDoughnut('chartDist',
-    ['1 offre — non-concurrentiel','2–3 offres','4–5 offres','6+ offres — très concurrentiel'],
+    ['1 offre','2 à 3 offres','4 à 5 offres','6 offres ou plus'],
     [dist.c1,dist.c23,dist.c45,dist.c6p],
-    ['#dc2626','#f59e0b','#3b82f6','#059669']);
-  charts.ncTrend = makeLine('chartNcTrend', T.years, T.nc, '#f59e0b', v=>v+'%');
+    ['#dc2626','#f59e0b','#3b82f6','#059669']
+  );
+  charts.ncTrend = makeLine('chartNcTrend', T.years, T.nc, '#f59e0b', v=>v+'%', 'Part des marchés à une seule offre');
  
-  // Tab 2
   charts.sme    = makeBar('chartSme',    ALL.sme.proc, '#059669', smeClick);
   charts.smeCpv = makeBar('chartSmeCpv', ALL.sme.cpv,  '#059669', smeClick);
-  charts.smeTrend = makeLine('chartSmeTrend', T.years, T.sme, '#059669', v=>v===null?'':v+'%');
+  charts.smeTrend = makeLine('chartSmeTrend', T.years, T.sme, '#059669', v=>v===null?'':v+'%', 'Taux PME');
  
-  // Tab 3
   charts.val    = makeBar('chartVal',    ALL.value.proc, '#dc2626', valClick);
   charts.valCpv = makeBar('chartValCpv', ALL.value.cpv,  '#dc2626', valClick);
-  charts.valTrend = makeLine('chartValTrend', T.years, T.value, '#dc2626', fmtEur);
+  charts.valTrend = makeLine('chartValTrend', T.years, T.value, '#dc2626', fmtEur, 'Valeur médiane');
 });
  
 // ── Tab switching ─────────────────────────────────────────────────────────────
@@ -650,33 +688,52 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
     document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     document.getElementById(b.dataset.tab).classList.add('active');
-    // Resize charts after tab show
     setTimeout(()=>Object.values(charts).forEach(c=>c&&c.resize&&c.resize()),50);
   });
 });
  
-// ── View filters ──────────────────────────────────────────────────────────────
+// ── Dynamic meta texts ────────────────────────────────────────────────────────
 const VIEW_META = {
-  proc:    {off:'Par procédure',sme:'Par procédure',val:'Par procédure',
-             offsub:"Offres médianes reçues selon le type de procédure",
-             smesub:"Taux PME selon le type de procédure utilisée",
-             valsub:"Valeur médiane des marchés selon le type de procédure"},
-  country: {off:'Par pays',sme:'Par pays',val:'Par pays',
-             offsub:"Offres médianes reçues selon le pays acheteur (top 15)",
-             smesub:"Taux PME selon le pays acheteur (top 15)",
-             valsub:"Valeur médiane des marchés selon le pays acheteur (top 15)"},
-  cpv:     {off:'Par secteur CPV',sme:'Par secteur CPV',val:'Par secteur CPV',
-             offsub:"Offres médianes selon le secteur CPV (top 12)",
-             smesub:"Taux PME selon le secteur d'activité CPV (top 12)",
-             valsub:"Valeur médiane selon le secteur d'activité CPV (top 12)"},
-  contract:{off:'Par type de contrat',sme:'Par type de contrat',val:'Par type de contrat',
-             offsub:"Offres médianes selon le type : Travaux, Services ou Fournitures",
-             smesub:"Taux PME selon le type de contrat (Travaux / Services / Fournitures)",
-             valsub:"Valeur médiane selon le type de contrat"},
-  crit:    {off:'Par critère',sme:'Par critère',val:'Par critère',
-             offsub:"Offres médianes selon le critère : Prix le plus bas ou MEAT",
-             smesub:"Taux PME selon le critère d'attribution utilisé",
-             valsub:"Valeur médiane selon le critère d'attribution : Prix vs MEAT"},
+  proc: {
+    offTitle:"Quelles procédures attirent le plus d'offres ?",
+    offSub:"Chaque barre montre le nombre d'offres médian selon la procédure. Plus la barre est haute, plus la concurrence est forte.",
+    smeTitle:"Quelles procédures sont les plus favorables aux PME ?",
+    smeSub:"Chaque barre indique la part de marchés attribués à une PME selon la procédure utilisée.",
+    valTitle:"Quelles procédures portent les marchés les plus élevés ?",
+    valSub:"Chaque barre montre la valeur médiane des marchés selon la procédure."
+  },
+  country: {
+    offTitle:"Quels pays obtiennent le plus d'offres ?",
+    offSub:"Chaque barre montre le nombre d'offres médian par pays acheteur. Plus la barre est haute, plus la concurrence est forte.",
+    smeTitle:"Dans quels pays les PME gagnent-elles le plus ?",
+    smeSub:"Chaque barre indique la part de marchés attribués à une PME par pays acheteur.",
+    valTitle:"Dans quels pays les marchés sont-ils les plus élevés ?",
+    valSub:"Chaque barre montre la valeur médiane des marchés par pays acheteur."
+  },
+  cpv: {
+    offTitle:"Quels secteurs attirent le plus d'offres ?",
+    offSub:"Chaque barre montre le nombre d'offres médian par secteur. Cela permet d'identifier les secteurs les plus ouverts à la concurrence.",
+    smeTitle:"Quels secteurs sont les plus ouverts aux PME ?",
+    smeSub:"Chaque barre indique la part de marchés attribués à une PME par secteur d'activité.",
+    valTitle:"Quels secteurs concentrent les montants les plus élevés ?",
+    valSub:"Chaque barre montre la valeur médiane des marchés par secteur.",
+  },
+  contract: {
+    offTitle:"Quel type de contrat attire le plus d'offres ?",
+    offSub:"Comparaison entre travaux, services et fournitures. Plus la barre est haute, plus le niveau de concurrence est élevé.",
+    smeTitle:"Quel type de contrat favorise le plus les PME ?",
+    smeSub:"Comparaison du taux PME entre travaux, services et fournitures.",
+    valTitle:"Quel type de contrat est le plus coûteux ?",
+    valSub:"Comparaison de la valeur médiane entre travaux, services et fournitures."
+  },
+  crit: {
+    offTitle:"Le critère d'attribution influence-t-il la concurrence ?",
+    offSub:"Comparaison du nombre d'offres médian selon le critère retenu : prix seul ou offre économiquement avantageuse.",
+    smeTitle:"Le critère d'attribution influence-t-il l'accès des PME ?",
+    smeSub:"Comparaison du taux PME selon le critère retenu.",
+    valTitle:"Le critère d'attribution influence-t-il la taille des marchés ?",
+    valSub:"Comparaison de la valeur médiane selon le critère retenu."
+  }
 };
  
 function updateBar(chartKey, data, color, clickFn){
@@ -696,8 +753,8 @@ document.querySelectorAll('[data-axis="off"]').forEach(b=>{
     document.querySelectorAll('[data-axis="off"]').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     const v=b.dataset.view, m=VIEW_META[v];
-    document.getElementById('t1-title').textContent='Offres médianes — '+m.off;
-    document.getElementById('t1-sub').textContent=m.offsub;
+    document.getElementById('t1-title').textContent=m.offTitle;
+    document.getElementById('t1-sub').textContent=m.offSub;
     updateBar('off', ALL.offers[v], '#003399', offClick);
   });
 });
@@ -708,8 +765,8 @@ document.querySelectorAll('[data-axis="sme"]').forEach(b=>{
     document.querySelectorAll('[data-axis="sme"]').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     const v=b.dataset.view, m=VIEW_META[v];
-    document.getElementById('t2-title').textContent='Taux PME (%) — '+m.sme;
-    document.getElementById('t2-sub').textContent=m.smesub;
+    document.getElementById('t2-title').textContent=m.smeTitle;
+    document.getElementById('t2-sub').textContent=m.smeSub;
     updateBar('sme', ALL.sme[v], '#059669', smeClick);
   });
 });
@@ -720,8 +777,8 @@ document.querySelectorAll('[data-axis="val"]').forEach(b=>{
     document.querySelectorAll('[data-axis="val"]').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     const v=b.dataset.view, m=VIEW_META[v];
-    document.getElementById('t3-title').textContent='Valeur médiane (€) — '+m.val;
-    document.getElementById('t3-sub').textContent=m.valsub;
+    document.getElementById('t3-title').textContent=m.valTitle;
+    document.getElementById('t3-sub').textContent=m.valSub;
     updateBar('val', ALL.value[v], '#dc2626', valClick);
   });
 });
