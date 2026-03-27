@@ -409,14 +409,17 @@ function showPopup(e, title, kpi, text, tag, tagColor) {
   document.getElementById('pop-kpi').textContent   = kpi;
   document.getElementById('pop-text').textContent  = text;
   const t = document.getElementById('pop-tag');
-  t.textContent  = tag;
+  t.textContent      = tag;
   t.style.background = tagColor + '22';
   t.style.color      = tagColor;
-  const rect = e.target.getBoundingClientRect();
-  let x = rect.left + window.scrollX;
-  let y = rect.top  + window.scrollY - 20;
-  p.style.left    = Math.min(x, window.innerWidth - 320) + 'px';
-  p.style.top     = Math.max(y - 160, 80) + 'px';
+  // Chart.js v4 : l'event natif est dans e.native
+  const native = (e && e.native) ? e.native : e;
+  const cx = native.clientX || 0;
+  const cy = native.clientY || 0;
+  const px = Math.min(cx + window.scrollX, window.innerWidth - 330);
+  const py = Math.max(cy + window.scrollY - 190, 80);
+  p.style.left    = px + 'px';
+  p.style.top     = py + 'px';
   p.style.display = 'block';
 }
 function closePopup() {
