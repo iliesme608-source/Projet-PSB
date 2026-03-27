@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marchés Publics EU — Dashboard Décisionnel | DG GROW</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary: #003399;
+    --primary-light: #1a4db3;
+    --accent: #ffcc00;
+    --accent2: #e8732a;
+    --success: #27ae60;
+    --danger: #c0392b;
+    --bg: #f0f2f7;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text2: #5a6275;
+    --border: #e0e4ef;
+    --shadow: 0 2px 16px rgba(0,51,153,0.09);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+ 
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, #001a80 100%);
+    padding: 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px;
+  }
+  .logo-zone { display: flex; align-items: center; gap: 14px; }
+  .eu-flag {
+    width: 48px; height: 32px; background: var(--primary);
+    border: 2px solid #ccc; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; letter-spacing: 2px;
+  }
+  .header-title h1 { color: #fff; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+  .header-title p { color: var(--accent); font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase; }
+  nav { display: flex; gap: 4px; }
+  nav button {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+    padding: 7px 14px; font-size: 0.8rem; cursor: pointer; transition: all .2s;
+    font-weight: 500;
+  }
+  nav button:hover, nav button.active {
+    background: var(--accent); color: var(--primary); border-color: var(--accent);
+    font-weight: 700;
+  }
+  .header-badge {
+    background: rgba(255,204,0,0.15); border: 1px solid rgba(255,204,0,0.4);
+    border-radius: 20px; padding: 5px 12px; color: var(--accent);
+    font-size: 0.72rem; font-weight: 600;
+  }
+ 
+  /* LAYOUT */
+  main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  .section { display: none; }
+  .section.active { display: block; }
+ 
+  /* SECTION TITLE */
+  .section-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  }
+  .section-pill {
+    background: var(--primary); color: white;
+    border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .section-header h2 { font-size: 1.3rem; color: var(--text); font-weight: 700; }
+  .section-header p { font-size: 0.82rem; color: var(--text2); margin-top: 3px; }
+ 
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media(max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+  .kpi-card {
+    background: var(--card); border-radius: 12px; padding: 20px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--primary);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,51,153,0.14); }
+  .kpi-card.yellow { border-left-color: var(--accent); }
+  .kpi-card.green { border-left-color: var(--success); }
+  .kpi-card.orange { border-left-color: var(--accent2); }
+  .kpi-card .kpi-label { font-size: 0.73rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+  .kpi-card .kpi-value { font-size: 2rem; font-weight: 800; color: var(--primary); line-height: 1.2; margin: 6px 0 4px; }
+  .kpi-card.yellow .kpi-value { color: #b8960a; }
+  .kpi-card.green .kpi-value { color: var(--success); }
+  .kpi-card.orange .kpi-value { color: var(--accent2); }
+  .kpi-card .kpi-sub { font-size: 0.75rem; color: var(--text2); }
+ 
+  /* CHARTS GRID */
+  .charts-grid { display: grid; gap: 20px; }
+  .charts-2 { grid-template-columns: 1fr 1fr; }
+  .charts-3 { grid-template-columns: 2fr 1fr; }
+  .chart-card {
+    background: var(--card); border-radius: 12px; padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .chart-card h3 { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .chart-card .chart-sub { font-size: 0.74rem; color: var(--text2); margin-bottom: 14px; }
+  .chart-wrap { position: relative; }
+  .chart-wrap canvas { max-height: 300px; }
+ 
+  /* INSIGHT BOXES */
+  .insight-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 20px; }
+  @media(max-width:900px){ .insight-grid { grid-template-columns:1fr; } }
+  .insight-box {
+    border-radius: 10px; padding: 16px;
+    border-left: 4px solid;
+  }
+  .insight-box.blue { background: #eef2ff; border-color: var(--primary); }
+  .insight-box.green { background: #eafaf1; border-color: var(--success); }
+  .insight-box.orange { background: #fef3ec; border-color: var(--accent2); }
+  .insight-box.red { background: #fdf2f2; border-color: var(--danger); }
+  .insight-box .ins-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--text2); }
+  .insight-box .ins-value { font-size: 1.4rem; font-weight: 800; margin: 4px 0 2px; }
+  .insight-box.blue .ins-value { color: var(--primary); }
+  .insight-box.green .ins-value { color: var(--success); }
+  .insight-box.orange .ins-value { color: var(--accent2); }
+  .insight-box.red .ins-value { color: var(--danger); }
+  .insight-box p { font-size: 0.76rem; color: var(--text2); line-height: 1.4; }
+ 
+  /* RECO CARDS */
+  .reco-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+  @media(max-width:900px){ .reco-grid { grid-template-columns:1fr; } }
+  .reco-card {
+    background: var(--card); border-radius: 12px; padding: 22px;
+    box-shadow: var(--shadow); border-top: 4px solid;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .reco-card.a { border-color: var(--primary); }
+  .reco-card.b { border-color: var(--success); }
+  .reco-card.c { border-color: var(--accent2); }
+  .reco-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem; color: white;
+  }
+  .reco-card.a .reco-num { background: var(--primary); }
+  .reco-card.b .reco-num { background: var(--success); }
+  .reco-card.c .reco-num { background: var(--accent2); }
+  .reco-card h3 { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+  .reco-card p { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+  .reco-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .reco-card.a .reco-tag { background: #eef2ff; color: var(--primary); }
+  .reco-card.b .reco-tag { background: #eafaf1; color: var(--success); }
+  .reco-card.c .reco-tag { background: #fef3ec; color: var(--accent2); }
+  .impact-bar { height: 6px; background: #e8eaf0; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+  .impact-fill { height: 100%; border-radius: 3px; transition: width 1s; }
+  .reco-card.a .impact-fill { background: var(--primary); }
+  .reco-card.b .impact-fill { background: var(--success); }
+  .reco-card.c .impact-fill { background: var(--accent2); }
+ 
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--card); border-radius: 10px; padding: 14px 20px;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    box-shadow: var(--shadow); flex-wrap: wrap;
+  }
+  .filter-bar label { font-size: 0.77rem; font-weight: 600; color: var(--text2); }
+  .filter-bar select {
+    border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px;
+    font-size: 0.8rem; background: var(--bg); color: var(--text); cursor: pointer;
+    outline: none;
+  }
+  .filter-bar select:focus { border-color: var(--primary); }
+ 
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .data-table th {
+    background: var(--primary); color: white; padding: 10px 12px;
+    text-align: left; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .data-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .data-table tr:hover td { background: #f5f7ff; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 0.68rem; font-weight: 700;
+  }
+  .badge.high { background: #eafaf1; color: var(--success); }
+  .badge.mid { background: #fef9e7; color: #b7950b; }
+  .badge.low { background: #fdf2f2; color: var(--danger); }
+ 
+  /* PROGRESS BARS */
+  .prog-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .prog-label { width: 160px; font-size: 0.75rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .prog-bar { flex: 1; height: 10px; background: #e8eaf0; border-radius: 5px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 5px; }
+  .prog-val { width: 40px; font-size: 0.75rem; font-weight: 700; text-align: right; }
+ 
+  /* USER STORY */
+  .story-card {
+    background: var(--card); border-radius: 12px; padding: 22px;
+    box-shadow: var(--shadow); margin-bottom: 16px;
+    border-left: 4px solid var(--accent2);
+  }
+  .story-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .story-icon { font-size: 1.4rem; }
+  .story-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .story-card .story-as { font-size: 0.78rem; color: var(--text2); margin-bottom: 6px; }
+  .story-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 12px; }
+  @media(max-width:900px){ .story-body { grid-template-columns:1fr; } }
+  .story-block { background: var(--bg); border-radius: 8px; padding: 10px 14px; }
+  .story-block-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: var(--text2); margin-bottom: 5px; }
+  .story-block ul { list-style: none; }
+  .story-block li { font-size: 0.78rem; color: var(--text); padding: 2px 0; }
+  .story-block li::before { content: "→ "; color: var(--primary); font-weight: 700; }
+ 
+  /* FOOTER */
+  footer {
+    background: var(--primary); color: rgba(255,255,255,0.6);
+    text-align: center; padding: 16px; font-size: 0.73rem; margin-top: 40px;
+  }
+  footer span { color: var(--accent); font-weight: 600; }
+ 
+  /* Responsive */
+  @media(max-width:768px){
+    .charts-2, .charts-3 { grid-template-columns:1fr; }
+    .reco-grid { grid-template-columns:1fr; }
+    nav button { padding: 6px 10px; font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+ 
+<header>
+  <div class="header-inner">
+    <div class="logo-zone">
+      <div class="eu-flag">🇪🇺</div>
+      <div class="header-title">
+        <h1>Marchés Publics Européens — Dashboard Décisionnel</h1>
+        <p>DG GROW · Commission Européenne · 2009–2017 · 2,2M marchés · 33 pays</p>
+      </div>
+    </div>
+    <nav>
+      <button class="active" onclick="showSection('vue-globale',this)">🏠 Vue Globale</button>
+      <button onclick="showSection('axe-a',this)">📊 Axe A — Concurrence</button>
+      <button onclick="showSection('axe-b',this)">🏢 Axe B — PME</button>
+      <button onclick="showSection('axe-c',this)">💰 Axe C — Efficience</button>
+      <button onclick="showSection('recos',this)">🎯 Recommandations</button>
+      <button onclick="showSection('stories',this)">👤 User Stories</button>
+    </nav>
+    <div class="header-badge">📅 Données 2009–2017</div>
+  </div>
+</header>
+ 
+<main>
+ 
+<!-- ============================================================ VUE GLOBALE -->
+<div class="section active" id="vue-globale">
+  <div class="section-header">
+    <span class="section-pill">VUE GLOBALE</span>
+    <div>
+      <h2>Panorama de la commande publique européenne</h2>
+      <p>KPI synthétiques · 2,2 millions de marchés · 3 368 Mds€ engagés</p>
+    </div>
+  </div>
+ 
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total marchés analysés</div>
+      <div class="kpi-value">2,2M</div>
+      <div class="kpi-sub">33 pays · 2009–2017</div>
+    </div>
+    <div class="kpi-card yellow">
+      <div class="kpi-label">Valeur totale engagée</div>
+      <div class="kpi-value">3 369 Mds€</div>
+      <div class="kpi-sub">Médiane : 46 500 €/marché</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Taux d'accès PME</div>
+      <div class="kpi-value">54,1%</div>
+      <div class="kpi-sub">Sur marchés renseignés</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Offres médianes / marché</div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-sub">Seuil concurrentiel critique</div>
+    </div>
+  </div>
+ 
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Procédure ouverte (OPE)</div>
+      <div class="kpi-value">86,9%</div>
+      <div class="kpi-sub">Dominant — mais hétérogène</div>
+    </div>
+    <div class="kpi-card yellow">
+      <div class="kpi-label">Critère prix seul (L)</div>
+      <div class="kpi-value">50,9%</div>
+      <div class="kpi-sub">vs 49,1% offre économique</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Pays couverts</div>
+      <div class="kpi-value">33</div>
+      <div class="kpi-sub">EEE + Suisse + Macédoine</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Marchés / an (moyenne)</div>
+      <div class="kpi-value">246K</div>
+      <div class="kpi-sub">+71% entre 2009 et 2017</div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2" style="margin-bottom:20px">
+    <div class="chart-card">
+      <h3>Évolution du nombre de marchés (2009–2017)</h3>
+      <p class="chart-sub">Croissance continue malgré la crise de 2008 — +71% sur la période</p>
+      <div class="chart-wrap"><canvas id="yearVolumeChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Répartition par type de contrat</h3>
+      <p class="chart-sub">Les fournitures (U) dominent — 58% des marchés</p>
+      <div class="chart-wrap"><canvas id="contractTypeChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2">
+    <div class="chart-card">
+      <h3>Top 10 pays — Volume de marchés</h3>
+      <p class="chart-sub">Pologne et France représentent 51% du dataset</p>
+      <div class="chart-wrap"><canvas id="countryVolumeChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Répartition des procédures</h3>
+      <p class="chart-sub">La procédure ouverte domine largement (87%)</p>
+      <div class="chart-wrap"><canvas id="procPieChart"></canvas></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ============================================================ AXE A -->
+<div class="section" id="axe-a">
+  <div class="section-header">
+    <span class="section-pill" style="background:#003399">AXE A</span>
+    <div>
+      <h2>Dynamique concurrentielle — NUMBER_OFFERS</h2>
+      <p>Identifier les facteurs qui influencent le niveau de concurrence dans les marchés publics</p>
+    </div>
+  </div>
+ 
+  <div class="insight-grid">
+    <div class="insight-box blue">
+      <div class="ins-label">Médiane offres / marché</div>
+      <div class="ins-value">3</div>
+      <p>Niveau faible — 75% des marchés reçoivent ≤5 offres. Seuil minimal de concurrence effective.</p>
+    </div>
+    <div class="insight-box orange">
+      <div class="ins-label">Procédures sans concurrence</div>
+      <div class="ins-value">6%</div>
+      <p>NOC + NON : médiane de 1 offre — attribution quasi-directe. 66K + 65K marchés concernés.</p>
+    </div>
+    <div class="insight-box green">
+      <div class="ins-label">Meilleure procédure</div>
+      <div class="ins-value">RES : 4</div>
+      <p>La procédure restreinte génère plus d'offres (médiane 4) vs ouverte (3). Paradoxe important.</p>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2" style="margin-top:20px; margin-bottom:20px">
+    <div class="chart-card">
+      <h3>Médiane d'offres par type de procédure</h3>
+      <p class="chart-sub">⚠️ Les procédures négociées sans appel (NOC/NOP) génèrent quasi 0 concurrence</p>
+      <div class="chart-wrap"><canvas id="procOffersChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Impact du critère d'attribution sur la concurrence</h3>
+      <p class="chart-sub">MEAT (M) attire plus d'offres que le critère prix seul (L)</p>
+      <div class="chart-wrap"><canvas id="critOffersChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2">
+    <div class="chart-card">
+      <h3>Concurrence par secteur CPV (médiane offres)</h3>
+      <p class="chart-sub">Construction (45) et Services archi. (71) — les plus compétitifs avec 5 offres</p>
+      <div class="chart-wrap"><canvas id="cpvOffersChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Offres médianes par pays (top 15)</h3>
+      <p class="chart-sub">UK et GR leaders (5 offres) — PL, SI, HU en retard (2 offres)</p>
+      <div class="chart-wrap"><canvas id="countryOffersChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid" style="margin-top:20px">
+    <div class="chart-card">
+      <h3>Évolution de la concurrence dans le temps (moyenne d'offres)</h3>
+      <p class="chart-sub">Baisse post-crise 2009–2013, puis rebond irrégulier — pic 2014 et 2016 à investiguer</p>
+      <div class="chart-wrap"><canvas id="yearOffersChart"></canvas></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ============================================================ AXE B -->
+<div class="section" id="axe-b">
+  <div class="section-header">
+    <span class="section-pill" style="background:#27ae60">AXE B</span>
+    <div>
+      <h2>Accès des PME à la commande publique — B_CONTRACTOR_SME</h2>
+      <p>Identifier les leviers structurels favorisant la participation et l'attribution aux PME</p>
+    </div>
+  </div>
+ 
+  <div class="insight-grid">
+    <div class="insight-box green">
+      <div class="ins-label">Taux PME global</div>
+      <div class="ins-value">54,1%</div>
+      <p>Sur les marchés renseignés (320K). Niveau encourageant mais très hétérogène selon pays/secteur.</p>
+    </div>
+    <div class="insight-box blue">
+      <div class="ins-label">Meilleur secteur PME</div>
+      <div class="ins-value">78,9%</div>
+      <p>Services sylvicoles (CPV77) — secteur naturellement fragmenté, favorable aux petites entreprises.</p>
+    </div>
+    <div class="insight-box orange">
+      <div class="ins-label">Secteur défavorable</div>
+      <div class="ins-value">15,4%</div>
+      <p>Services financiers (CPV66) — concentré sur les grands acteurs, difficile d'accès pour les PME.</p>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2" style="margin-top:20px; margin-bottom:20px">
+    <div class="chart-card">
+      <h3>Taux PME par type de procédure (%)</h3>
+      <p class="chart-sub">Attribution directe (AWP) et Restreinte (RES) — meilleurs taux PME (>55%)</p>
+      <div class="chart-wrap"><canvas id="procSmeChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Taux PME par critère d'attribution</h3>
+      <p class="chart-sub">Critère prix (L) légèrement plus favorable aux PME (56,6%) vs MEAT (53,6%)</p>
+      <div class="chart-wrap"><canvas id="critSmeChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2">
+    <div class="chart-card">
+      <h3>Taux PME par secteur économique (CPV 2 digits)</h3>
+      <p class="chart-sub">Forte disparité : de 15% (finances) à 79% (sylviculture)</p>
+      <div class="chart-wrap"><canvas id="cpvSmeChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Taux PME par pays (top 15)</h3>
+      <p class="chart-sub">Slovénie (74%) et Pays-Bas (73%) en tête — Roumanie (14%) très en retard</p>
+      <div class="chart-wrap"><canvas id="countrySmeChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid" style="margin-top:20px">
+    <div class="chart-card">
+      <h3>Taux PME par type d'acheteur public (CAE_TYPE)</h3>
+      <p class="chart-sub">Les organismes internationaux (5A) présentent le plus fort taux PME (89%) — mais volume faible</p>
+      <div class="chart-wrap"><canvas id="caeSmechart"></canvas></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ============================================================ AXE C -->
+<div class="section" id="axe-c">
+  <div class="section-header">
+    <span class="section-pill" style="background:#e8732a">AXE C</span>
+    <div>
+      <h2>Efficience budgétaire — AWARD_VALUE_EURO</h2>
+      <p>Analyser la distribution des montants et identifier les leviers d'optimisation de la dépense publique</p>
+    </div>
+  </div>
+ 
+  <div class="insight-grid">
+    <div class="insight-box orange">
+      <div class="ins-label">Valeur médiane / marché</div>
+      <div class="ins-value">46 500 €</div>
+      <p>Vs moyenne de 1,5M€ — forte asymétrie due aux grands contrats. La médiane est plus représentative.</p>
+    </div>
+    <div class="insight-box blue">
+      <div class="ins-label">Impact crise 2008</div>
+      <div class="ins-value">-39%</div>
+      <p>La valeur médiane passe de 63K€ (2009) à 39K€ (2013) — compression budgétaire nette post-crise.</p>
+    </div>
+    <div class="insight-box green">
+      <div class="ins-label">Effet MEAT sur la valeur</div>
+      <div class="ins-value">+266%</div>
+      <p>Marchés MEAT : médiane 81 887€ vs 22 374€ pour critère prix seul — investissements plus qualitatifs.</p>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2" style="margin-top:20px; margin-bottom:20px">
+    <div class="chart-card">
+      <h3>Évolution de la valeur médiane des marchés (€)</h3>
+      <p class="chart-sub">Compression 2009–2013 (effet crise), rebond partiel 2016, nouvelle baisse 2017</p>
+      <div class="chart-wrap"><canvas id="yearValueChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Valeur médiane par type de contrat</h3>
+      <p class="chart-sub">Travaux (W) = 287K€ · Services (S) = 121K€ · Fournitures (U) = 17K€</p>
+      <div class="chart-wrap"><canvas id="contractValueChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid charts-2">
+    <div class="chart-card">
+      <h3>Valeur médiane par procédure (€)</h3>
+      <p class="chart-sub">⚠️ NOP (sans pub.) = 1,07M€ — les plus gros marchés évitent la mise en concurrence</p>
+      <div class="chart-wrap"><canvas id="procValueChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Valeur médiane par pays — Top 15 (€)</h3>
+      <p class="chart-sub">UK (423K€) et DE (209K€) — PL (10K€) et SI (9K€) : marchés très fragmentés</p>
+      <div class="chart-wrap"><canvas id="countryValueChart"></canvas></div>
+    </div>
+  </div>
+ 
+  <div class="charts-grid" style="margin-top:20px">
+    <div class="chart-card">
+      <h3>Valeur médiane par secteur CPV</h3>
+      <p class="chart-sub">Construction (289K€) et Santé (243K€) — les secteurs à plus fort enjeu budgétaire</p>
+      <div class="chart-wrap"><canvas id="cpvValueChart"></canvas></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ============================================================ RECOMMANDATIONS -->
+<div class="section" id="recos">
+  <div class="section-header">
+    <span class="section-pill" style="background:#c0392b">RECOMMANDATIONS</span>
+    <div>
+      <h2>Recommandations stratégiques actionnables</h2>
+      <p>6 recommandations concrètes, chiffrées et reliées aux analyses — pour la DG GROW</p>
+    </div>
+  </div>
+ 
+  <div class="reco-grid" style="margin-bottom:20px">
+    <div class="reco-card a">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R1</div>
+        <span class="reco-tag">AXE A — CONCURRENCE</span>
+      </div>
+      <h3>Encadrer les procédures négociées sans appel</h3>
+      <p>Les procédures NOC/NOP (65K marchés, 127K+ marchés) génèrent une médiane d'1 seule offre contre 3 pour les procédures ouvertes. Ces marchés représentent 6% du volume mais concentrent des risques de favoritisme élevés.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur la concurrence</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:85%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Imposer un seuil de justification documentée au-delà de 50K€ pour toute procédure NOC/NOP. Objectif : +1 offre médiane sur ce segment.</p>
+    </div>
+    <div class="reco-card a">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R2</div>
+        <span class="reco-tag">AXE A — CONCURRENCE</span>
+      </div>
+      <h3>Privilégier le critère MEAT (M) sur le prix seul</h3>
+      <p>Le critère MEAT génère une médiane de 3 offres vs 2 pour le prix seul (L), et des valeurs de marchés 3,7× supérieures. Il attire des soumissionnaires plus qualitatifs et réduit la course au moins-disant.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur la qualité</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:70%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Fixer un objectif de 70% de marchés en critère MEAT d'ici 2027 (vs 49% actuellement). Cibler d'abord les contrats >100K€.</p>
+    </div>
+    <div class="reco-card b">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R3</div>
+        <span class="reco-tag">AXE B — PME</span>
+      </div>
+      <h3>Allotissement systématique dans les secteurs à faible accès PME</h3>
+      <p>Services financiers (15% PME), Santé (41%), Services financiers et institutions UE (43%) montrent les taux PME les plus faibles. Le découpage en lots favorise structurellement les petites structures.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur accès PME</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:75%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Imposer l'allotissement par défaut pour les marchés >200K€ dans les secteurs CPV 66, 85, 72. Objectif : porter le taux PME dans ces secteurs de 15–41% à 45%+.</p>
+    </div>
+  </div>
+ 
+  <div class="reco-grid">
+    <div class="reco-card b">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R4</div>
+        <span class="reco-tag">AXE B — PME</span>
+      </div>
+      <h3>Plan d'action ciblé sur la Roumanie et les pays à faible taux PME</h3>
+      <p>La Roumanie affiche seulement 14% de taux PME malgré 135K marchés — vs 74% en Slovénie ou 73% aux Pays-Bas. L'Espagne (32%) et l'Italie (34%) présentent aussi un fort potentiel d'amélioration.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur équité</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:65%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Fonds d'assistance technique UE pour RO, ES, IT — simplification administrative, portails dédiés PME, formation des acheteurs publics. Objectif : +20pts en 5 ans.</p>
+    </div>
+    <div class="reco-card c">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R5</div>
+        <span class="reco-tag">AXE C — EFFICIENCE</span>
+      </div>
+      <h3>Audit des grandes procédures non-concurrentielles (NOP)</h3>
+      <p>Les procédures NOP affichent une valeur médiane de 1,07M€ avec une seule offre. Ces 1 352 marchés représentent un risque majeur d'inefficience budgétaire et de corruption.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur économies</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:90%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Audit systématique OLAF de tout marché NOP >500K€. Estimation de surcout potentiel : 15–30% vs procédure ouverte. Potentiel d'économies : 200–400M€/an.</p>
+    </div>
+    <div class="reco-card c">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="reco-num">R6</div>
+        <span class="reco-tag">AXE C — EFFICIENCE</span>
+      </div>
+      <h3>Harmoniser les pratiques entre pays — réduire la fragmentation</h3>
+      <p>La valeur médiane varie de 9 135€ (SI) à 423 498€ (UK) — un facteur 46x. Cette fragmentation extrême (PL, SI) suggère une sous-optimisation des achats groupés et une inefficience de gestion.</p>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px">Impact estimé sur efficience</div>
+        <div class="impact-bar"><div class="impact-fill" style="width:60%"></div></div>
+      </div>
+      <p style="font-size:0.73rem;color:var(--text2)">🎯 <strong>Action :</strong> Promouvoir les centrales d'achats (B_ON_BEHALF) dans les pays à marchés très fragmentés. Objectif : réduire le coût de transaction de 20% via regroupement.</p>
+    </div>
+  </div>
+</div>
+ 
+<!-- ============================================================ USER STORIES -->
+<div class="section" id="stories">
+  <div class="section-header">
+    <span class="section-pill" style="background:#6c3483">USER STORIES</span>
+    <div>
+      <h2>Cas d'usage décisionnels</h2>
+      <p>Chaque story relie un profil utilisateur, des KPI spécifiques, et une décision actionnable</p>
+    </div>
+  </div>
+ 
+  <div class="story-card">
+    <div class="story-header">
+      <div class="story-icon">🏛️</div>
+      <div>
+        <div class="story-as">En tant que <strong>Responsable politique DG GROW</strong></div>
+        <h3>Je veux identifier les procédures générant le moins de concurrence — Afin de cibler les réformes réglementaires prioritaires</h3>
+      </div>
+    </div>
+    <div class="story-body">
+      <div class="story-block">
+        <div class="story-block-title">KPI utilisés</div>
+        <ul>
+          <li>Médiane NUMBER_OFFERS par TOP_TYPE</li>
+          <li>% marchés avec 1 seule offre</li>
+          <li>Volume par procédure</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Visualisations</div>
+        <ul>
+          <li>Bar chart offres/procédure</li>
+          <li>Courbe temporelle</li>
+          <li>Heatmap pays × procédure</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Décision</div>
+        <ul>
+          <li>Encadrer NOC/NOP par seuil</li>
+          <li>Rapport OLAF ciblé</li>
+          <li>Directive 2026 sur justification</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="story-card" style="border-left-color:#27ae60">
+    <div class="story-header">
+      <div class="story-icon">🏢</div>
+      <div>
+        <div class="story-as">En tant que <strong>Chargée de mission accès PME</strong></div>
+        <h3>Je veux identifier les secteurs et pays où les PME sont sous-représentées — Afin de cibler les dispositifs de soutien</h3>
+      </div>
+    </div>
+    <div class="story-body">
+      <div class="story-block">
+        <div class="story-block-title">KPI utilisés</div>
+        <ul>
+          <li>Taux B_CONTRACTOR_SME par pays</li>
+          <li>Taux PME par secteur CPV</li>
+          <li>Taux PME par procédure</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Visualisations</div>
+        <ul>
+          <li>Bar chart PME par pays</li>
+          <li>Bar chart PME par CPV</li>
+          <li>KPI comparatif SI vs RO</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Décision</div>
+        <ul>
+          <li>Plan d'action RO/ES/IT</li>
+          <li>Allotissement CPV66/85/72</li>
+          <li>Fonds assistance technique</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="story-card" style="border-left-color:#e8732a">
+    <div class="story-header">
+      <div class="story-icon">💰</div>
+      <div>
+        <div class="story-as">En tant que <strong>Contrôleur budgétaire Commission Européenne</strong></div>
+        <h3>Je veux détecter les marchés à risque d'inefficience — Afin de prioriser les audits et récupérer des économies</h3>
+      </div>
+    </div>
+    <div class="story-body">
+      <div class="story-block">
+        <div class="story-block-title">KPI utilisés</div>
+        <ul>
+          <li>AWARD_VALUE_EURO par procédure</li>
+          <li>Valeur médiane NOP/NOC</li>
+          <li>Évolution temporelle des valeurs</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Visualisations</div>
+        <ul>
+          <li>Bar chart valeur/procédure</li>
+          <li>Courbe valeur médiane/année</li>
+          <li>Heatmap valeur × pays</li>
+        </ul>
+      </div>
+      <div class="story-block">
+        <div class="story-block-title">Décision</div>
+        <ul>
+          <li>Audit NOP >500K€ systématique</li>
+          <li>Harmonisation fragments PL/SI</li>
+          <li>Économies estimées : 400M€/an</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+</main>
+ 
+<footer>
+  Dashboard Décisionnel — Marchés Publics Européens · Données <span>TED / EU Open Data Portal</span> 2009–2017 ·
+  Mandaté par <span>DG GROW — Commission Européenne</span> · Analyse : Cabinet Data &amp; Stratégie
+</footer>
+ 
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const DATA = {"kpi":{"total":2216338,"total_value_B":3368.8,"median_offers":3.0,"median_value":46500,"sme_rate":54.1,"pct_open":86.9,"n_countries":33,"pct_price_crit":50.9},"country":[{"ISO_COUNTRY_CODE":"PL","n":671148,"med_offers":2.0,"med_value":10495.0,"sme_rate":56.3},{"ISO_COUNTRY_CODE":"FR","n":454422,"med_offers":4.0,"med_value":71916.0,"sme_rate":46.1},{"ISO_COUNTRY_CODE":"RO","n":134923,"med_offers":4.0,"med_value":10599.0,"sme_rate":14.3},{"ISO_COUNTRY_CODE":"DE","n":117216,"med_offers":4.0,"med_value":209000.0,"sme_rate":51.0},{"ISO_COUNTRY_CODE":"ES","n":114226,"med_offers":4.0,"med_value":175983.0,"sme_rate":32.1},{"ISO_COUNTRY_CODE":"IT","n":103794,"med_offers":3.0,"med_value":176300.0,"sme_rate":34.4},{"ISO_COUNTRY_CODE":"UK","n":80571,"med_offers":5.0,"med_value":423498.0,"sme_rate":52.2},{"ISO_COUNTRY_CODE":"SI","n":58392,"med_offers":2.0,"med_value":9135.0,"sme_rate":74.0},{"ISO_COUNTRY_CODE":"LV","n":57009,"med_offers":4.0,"med_value":15714.0,"sme_rate":69.3},{"ISO_COUNTRY_CODE":"BG","n":55311,"med_offers":4.0,"med_value":24912.0,"sme_rate":52.6},{"ISO_COUNTRY_CODE":"CZ","n":55098,"med_offers":2.0,"med_value":83512.0,"sme_rate":64.8},{"ISO_COUNTRY_CODE":"LT","n":43745,"med_offers":4.0,"med_value":20273.0,"sme_rate":29.0},{"ISO_COUNTRY_CODE":"HU","n":35899,"med_offers":2.0,"med_value":72844.0,"sme_rate":66.5},{"ISO_COUNTRY_CODE":"BE","n":28182,"med_offers":3.0,"med_value":200000.0,"sme_rate":31.6},{"ISO_COUNTRY_CODE":"GR","n":25758,"med_offers":5.0,"med_value":45528.0,"sme_rate":38.6}],"procedure":[{"TOP_TYPE":"AWP","n":60807,"med_offers":3.0,"mean_offers":8.2,"med_value":50000.0,"sme_rate":59.1,"label":"Attribution directe","pct":2.8},{"TOP_TYPE":"COD","n":2947,"med_offers":3.0,"mean_offers":4.4,"med_value":1274222.0,"sme_rate":37.8,"label":"Dialogue compétitif","pct":0.1},{"TOP_TYPE":"INP","n":428,"med_offers":2.0,"mean_offers":2.5,"med_value":8086.0,"sme_rate":25.5,"label":"Sans pub préalable","pct":0.0},{"TOP_TYPE":"NIC","n":66770,"med_offers":3.0,"mean_offers":5.2,"med_value":300000.0,"sme_rate":43.2,"label":"Négociée (avec appel)","pct":3.0},{"TOP_TYPE":"NIP","n":1297,"med_offers":2.0,"mean_offers":3.9,"med_value":670928.0,"sme_rate":-1.0,"label":"Négociée (avec pub)","pct":0.1},{"TOP_TYPE":"NOC","n":65202,"med_offers":1.0,"mean_offers":2.3,"med_value":177506.0,"sme_rate":44.4,"label":"Négociée (sans appel)","pct":3.0},{"TOP_TYPE":"NOP","n":1352,"med_offers":1.0,"mean_offers":1.1,"med_value":1074190.0,"sme_rate":-1.0,"label":"Négociée (sans pub.)","pct":0.1},{"TOP_TYPE":"OPE","n":1927037,"med_offers":3.0,"mean_offers":8.0,"med_value":37567.0,"sme_rate":54.7,"label":"Ouverte","pct":87.2},{"TOP_TYPE":"RES","n":83417,"med_offers":4.0,"mean_offers":7.0,"med_value":354000.0,"sme_rate":55.5,"label":"Restreinte","pct":3.8}],"year":[{"YEAR":2009,"n":195844,"med_offers":3.0,"mean_offers":6.9,"med_value":63154.0,"sme_rate":-1.0},{"YEAR":2010,"n":213194,"med_offers":3.0,"mean_offers":6.4,"med_value":52560.0,"sme_rate":-1.0},{"YEAR":2011,"n":229937,"med_offers":3.0,"mean_offers":6.0,"med_value":49507.0,"sme_rate":-1.0},{"YEAR":2012,"n":236830,"med_offers":3.0,"mean_offers":5.6,"med_value":40817.0,"sme_rate":-1.0},{"YEAR":2013,"n":240199,"med_offers":3.0,"mean_offers":5.1,"med_value":39816.0,"sme_rate":-1.0},{"YEAR":2014,"n":248106,"med_offers":3.0,"mean_offers":14.4,"med_value":38716.0,"sme_rate":-1.0},{"YEAR":2015,"n":257813,"med_offers":3.0,"mean_offers":7.7,"med_value":41043.0,"sme_rate":23.4},{"YEAR":2016,"n":258630,"med_offers":3.0,"mean_offers":11.6,"med_value":56159.0,"sme_rate":50.6},{"YEAR":2017,"n":335785,"med_offers":3.0,"mean_offers":5.7,"med_value":44676.0,"sme_rate":55.1}],"cpv":[{"CPV2":"33","n":781100,"med_offers":2.0,"med_value":8480.0,"sme_rate":46.9,"label":"Matériel médical"},{"CPV2":"45","n":220127,"med_offers":5.0,"med_value":289145.0,"sme_rate":60.8,"label":"Construction"},{"CPV2":"15","n":100054,"med_offers":3.0,"med_value":17604.0,"sme_rate":67.5,"label":"Alimentation"},{"CPV2":"90","n":95979,"med_offers":4.0,"med_value":143123.0,"sme_rate":53.4,"label":"Environnement"},{"CPV2":"71","n":84709,"med_offers":5.0,"med_value":158053.0,"sme_rate":63.9,"label":"Svcs architecturaux"},{"CPV2":"50","n":67392,"med_offers":3.0,"med_value":106693.0,"sme_rate":50.3,"label":"Maintenance"},{"CPV2":"34","n":66262,"med_offers":2.0,"med_value":125433.0,"sme_rate":54.6,"label":"Transport"},{"CPV2":"77","n":64180,"med_offers":2.0,"med_value":63394.0,"sme_rate":78.9,"label":"Svcs sylvicoles"},{"CPV2":"79","n":63366,"med_offers":4.0,"med_value":155181.0,"sme_rate":60.4,"label":"Svcs entreprises"},{"CPV2":"60","n":56973,"med_offers":3.0,"med_value":85418.0,"sme_rate":63.8,"label":"Transport/Logistique"},{"CPV2":"80","n":56797,"med_offers":2.0,"med_value":10756.0,"sme_rate":45.6,"label":"Éducation"},{"CPV2":"30","n":52817,"med_offers":3.0,"med_value":39011.0,"sme_rate":61.0,"label":"Informatique"},{"CPV2":"85","n":49699,"med_offers":3.0,"med_value":242639.0,"sme_rate":41.0,"label":"Santé/Social"},{"CPV2":"66","n":47062,"med_offers":3.0,"med_value":81125.0,"sme_rate":15.4,"label":"Svcs financiers"},{"CPV2":"39","n":40124,"med_offers":3.0,"med_value":37126.0,"sme_rate":62.4,"label":"Mobilier"}],"crit":[{"CRIT_CODE":"L","n":1036342,"med_offers":2.0,"med_value":22374.46,"sme_rate":56.6},{"CRIT_CODE":"M","n":1000696,"med_offers":3.0,"med_value":81887.11,"sme_rate":53.6}],"cae":[{"CAE_TYPE":"1","n":214913,"med_offers":3.0,"sme_rate":56.3,"label":"Gouvernement central"},{"CAE_TYPE":"3","n":452634,"med_offers":3.0,"sme_rate":54.0,"label":"Autorités locales"},{"CAE_TYPE":"4","n":112303,"med_offers":3.0,"sme_rate":49.5,"label":"Eau/Énergie/Transport"},{"CAE_TYPE":"5","n":9049,"med_offers":3.0,"sme_rate":43.1,"label":"Institution UE"},{"CAE_TYPE":"5A","n":500,"med_offers":3.0,"sme_rate":89.5,"label":"Org. international"},{"CAE_TYPE":"6","n":721728,"med_offers":2.0,"sme_rate":53.9,"label":"Organisme public"},{"CAE_TYPE":"8","n":545553,"med_offers":2.0,"sme_rate":54.5,"label":"Autre"},{"CAE_TYPE":"N","n":34898,"med_offers":4.0,"sme_rate":48.4,"label":"Agence nationale"},{"CAE_TYPE":"R","n":45745,"med_offers":3.0,"sme_rate":54.1,"label":"Agence régionale"}]};
+ 
+// ============================================================
+// COLORS
+// ============================================================
+const C_BLUE = '#003399';
+const C_YELLOW = '#ffcc00';
+const C_GREEN = '#27ae60';
+const C_ORANGE = '#e8732a';
+const C_RED = '#c0392b';
+const C_LIGHT = '#6c8ebf';
+const PALETTE = ['#003399','#1a4db3','#3366cc','#4d80e6','#6699ff','#99bbff','#ffcc00','#e8732a','#27ae60','#c0392b','#8e44ad','#16a085'];
+ 
+function colorArray(n, base='#003399') { return Array(n).fill(0).map((_,i)=>PALETTE[i%PALETTE.length]); }
+function smeColor(v) { if(v<0) return '#ccc'; if(v>=60) return C_GREEN; if(v>=40) return C_ORANGE; return C_RED; }
+ 
+// ============================================================
+// NAV
+// ============================================================
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+ 
+// ============================================================
+// CHART DEFAULTS
+// ============================================================
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+ 
+const defaultOpts = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: { legend: { display: false }, tooltip: { callbacks: {} } }
+};
+ 
+function numFmt(v) {
+  if(v>=1e9) return (v/1e9).toFixed(1)+'B€';
+  if(v>=1e6) return (v/1e6).toFixed(1)+'M€';
+  if(v>=1e3) return (v/1e3).toFixed(0)+'K€';
+  return v+'€';
+}
+ 
+// ============================================================
+// VUE GLOBALE CHARTS
+// ============================================================
+// Year volume
+new Chart(document.getElementById('yearVolumeChart'), {
+  type: 'bar',
+  data: {
+    labels: DATA.year.map(d=>d.YEAR),
+    datasets: [{
+      label: 'Nombre de marchés',
+      data: DATA.year.map(d=>d.n),
+      backgroundColor: DATA.year.map((_,i)=>i>=4?C_BLUE:C_ORANGE),
+      borderRadius: 5
+    }]
+  },
+  options: { ...defaultOpts,
+    plugins: { legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.raw.toLocaleString('fr')+' marchés'}} },
+    scales: { y:{ ticks:{ callback:v=>(v/1000)+'K' } }, x:{grid:{display:false}} }
+  }
+});
+ 
+// Contract type
+new Chart(document.getElementById('contractTypeChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Fournitures (U)','Services (S)','Travaux (W)'],
+    datasets: [{ data: [1277721, 709696, 228921], backgroundColor:[C_BLUE, C_YELLOW, C_ORANGE], hoverOffset:8 }]
+  },
+  options: { responsive:true, plugins:{ legend:{display:true, position:'bottom'} } }
+});
+ 
+// Country volume
+const topCountries = DATA.country.slice(0,10);
+new Chart(document.getElementById('countryVolumeChart'), {
+  type: 'bar',
+  data: {
+    labels: topCountries.map(d=>d.ISO_COUNTRY_CODE),
+    datasets: [{
+      data: topCountries.map(d=>d.n),
+      backgroundColor: colorArray(10),
+      borderRadius: 5
+    }]
+  },
+  options: { ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.raw.toLocaleString('fr')+' marchés'}} },
+    scales:{ y:{ ticks:{callback:v=>(v/1000)+'K'} }, x:{grid:{display:false}} }
+  }
+});
+ 
+// Procedure pie
+const procMain = DATA.procedure.filter(d=>d.n>500);
+new Chart(document.getElementById('procPieChart'), {
+  type: 'doughnut',
+  data: {
+    labels: procMain.map(d=>d.label),
+    datasets: [{ data: procMain.map(d=>d.n), backgroundColor: PALETTE.slice(0, procMain.length), hoverOffset:8 }]
+  },
+  options: { responsive:true, plugins:{ legend:{display:true, position:'bottom', labels:{font:{size:10}}} } }
+});
+ 
+// ============================================================
+// AXE A CHARTS
+// ============================================================
+const procSorted = [...DATA.procedure].sort((a,b)=>b.med_offers-a.med_offers);
+ 
+new Chart(document.getElementById('procOffersChart'), {
+  type: 'bar',
+  data: {
+    labels: procSorted.map(d=>d.label),
+    datasets: [{
+      label: 'Médiane offres',
+      data: procSorted.map(d=>d.med_offers),
+      backgroundColor: procSorted.map(d=>d.med_offers>=4?C_GREEN:d.med_offers>=2?C_YELLOW:C_RED),
+      borderRadius: 5
+    }]
+  },
+  options: { ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' Médiane: '+c.raw+' offres'}} },
+    scales:{ x:{min:0, max:6}, y:{grid:{display:false}} }
+  }
+});
+ 
+new Chart(document.getElementById('critOffersChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Prix seul (L)','MEAT — Offre éco. (M)'],
+    datasets: [
+      { label:'Médiane offres', data:[2,3], backgroundColor:[C_ORANGE, C_BLUE], borderRadius:8 },
+      { label:'Moyenne offres', data:[8.9,6.1], backgroundColor:['rgba(232,115,42,0.35)','rgba(0,51,153,0.35)'], borderRadius:8 }
+    ]
+  },
+  options: { ...defaultOpts,
+    plugins:{ legend:{display:true,position:'bottom'}, tooltip:{} },
+    scales:{ y:{min:0}, x:{grid:{display:false}} }
+  }
+});
+ 
+const cpvOff = [...DATA.cpv].sort((a,b)=>b.med_offers-a.med_offers);
+new Chart(document.getElementById('cpvOffersChart'), {
+  type: 'bar',
+  data: {
+    labels: cpvOff.map(d=>d.label),
+    datasets: [{ data: cpvOff.map(d=>d.med_offers), backgroundColor: cpvOff.map(d=>d.med_offers>=4?C_GREEN:d.med_offers>=3?C_BLUE:C_ORANGE), borderRadius:4 }]
+  },
+  options: { ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false} },
+    scales:{ x:{min:0,max:7}, y:{grid:{display:false},ticks:{font:{size:10}}} }
+  }
+});
+ 
+const cOff = [...DATA.country].sort((a,b)=>b.med_offers-a.med_offers);
+new Chart(document.getElementById('countryOffersChart'), {
+  type: 'bar',
+  data: {
+    labels: cOff.map(d=>d.ISO_COUNTRY_CODE),
+    datasets: [{ data: cOff.map(d=>d.med_offers), backgroundColor: cOff.map(d=>d.med_offers>=4?C_GREEN:d.med_offers>=3?C_BLUE:C_RED), borderRadius:4 }]
+  },
+  options: { ...defaultOpts,
+    plugins:{ legend:{display:false} },
+    scales:{ y:{min:0,max:7}, x:{grid:{display:false}} }
+  }
+});
+ 
+new Chart(document.getElementById('yearOffersChart'), {
+  type: 'line',
+  data: {
+    labels: DATA.year.map(d=>d.YEAR),
+    datasets: [
+      { label:'Moyenne offres', data:DATA.year.map(d=>d.mean_offers), borderColor:C_BLUE, backgroundColor:'rgba(0,51,153,0.1)', tension:0.3, fill:true, pointRadius:5 },
+      { label:'Médiane offres', data:DATA.year.map(d=>d.med_offers), borderColor:C_ORANGE, borderDash:[5,5], tension:0.3, pointRadius:4 }
+    ]
+  },
+  options: { ...defaultOpts,
+    plugins:{ legend:{display:true,position:'top'} },
+    scales:{ y:{min:0}, x:{grid:{display:false}} }
+  }
+});
+ 
+// ============================================================
+// AXE B CHARTS
+// ============================================================
+const procSme = DATA.procedure.filter(d=>d.sme_rate>0).sort((a,b)=>b.sme_rate-a.sme_rate);
+new Chart(document.getElementById('procSmeChart'), {
+  type:'bar',
+  data:{
+    labels: procSme.map(d=>d.label),
+    datasets:[{ data:procSme.map(d=>d.sme_rate), backgroundColor:procSme.map(d=>smeColor(d.sme_rate)), borderRadius:5 }]
+  },
+  options:{ ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' PME: '+c.raw+'%'}} },
+    scales:{ x:{min:0,max:75,ticks:{callback:v=>v+'%'}}, y:{grid:{display:false}} }
+  }
+});
+ 
+new Chart(document.getElementById('critSmeChart'), {
+  type:'bar',
+  data:{
+    labels:['Prix seul (L)','MEAT — Offre éco. (M)'],
+    datasets:[
+      { label:'Taux PME (%)', data:[56.6,53.6], backgroundColor:[C_ORANGE, C_BLUE], borderRadius:8 },
+      { label:'Valeur médiane (K€)', data:[22.4,81.9], backgroundColor:['rgba(232,115,42,0.3)','rgba(0,51,153,0.3)'], borderRadius:8, yAxisID:'y2' }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:true,
+    plugins:{ legend:{display:true,position:'bottom'} },
+    scales:{
+      y:{ min:0, max:80, ticks:{callback:v=>v+'%'} },
+      y2:{ position:'right', min:0, max:120, ticks:{callback:v=>v+'K€'}, grid:{display:false} },
+      x:{grid:{display:false}}
+    }
+  }
+});
+ 
+const cpvSme = [...DATA.cpv].sort((a,b)=>b.sme_rate-a.sme_rate);
+new Chart(document.getElementById('cpvSmeChart'), {
+  type:'bar',
+  data:{
+    labels: cpvSme.map(d=>d.label),
+    datasets:[{ data:cpvSme.map(d=>d.sme_rate), backgroundColor:cpvSme.map(d=>smeColor(d.sme_rate)), borderRadius:4 }]
+  },
+  options:{ ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' PME: '+c.raw+'%'}} },
+    scales:{ x:{min:0,max:100,ticks:{callback:v=>v+'%'}}, y:{grid:{display:false},ticks:{font:{size:10}}} }
+  }
+});
+ 
+const cSme = [...DATA.country].sort((a,b)=>b.sme_rate-a.sme_rate);
+new Chart(document.getElementById('countrySmeChart'), {
+  type:'bar',
+  data:{
+    labels: cSme.map(d=>d.ISO_COUNTRY_CODE),
+    datasets:[{ data:cSme.map(d=>d.sme_rate), backgroundColor:cSme.map(d=>smeColor(d.sme_rate)), borderRadius:4 }]
+  },
+  options:{ ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' PME: '+c.raw+'%'}} },
+    scales:{ y:{min:0,max:100,ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}} }
+  }
+});
+ 
+const caeSme = DATA.cae.filter(d=>d.sme_rate>0).sort((a,b)=>b.sme_rate-a.sme_rate);
+new Chart(document.getElementById('caeSmechart'), {
+  type:'bar',
+  data:{
+    labels: caeSme.map(d=>d.label),
+    datasets:[{ data:caeSme.map(d=>d.sme_rate), backgroundColor:caeSme.map(d=>smeColor(d.sme_rate)), borderRadius:5 }]
+  },
+  options:{ ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' PME: '+c.raw+'%'}} },
+    scales:{ y:{min:0,max:100,ticks:{callback:v=>v+'%'}}, x:{grid:{display:false},ticks:{font:{size:10}}} }
+  }
+});
+ 
+// ============================================================
+// AXE C CHARTS
+// ============================================================
+new Chart(document.getElementById('yearValueChart'), {
+  type:'line',
+  data:{
+    labels: DATA.year.map(d=>d.YEAR),
+    datasets:[{
+      label:'Valeur médiane (€)',
+      data: DATA.year.map(d=>d.med_value),
+      borderColor:C_ORANGE, backgroundColor:'rgba(232,115,42,0.1)', tension:0.3, fill:true, pointRadius:6, pointBackgroundColor:C_ORANGE
+    }]
+  },
+  options:{ ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+numFmt(c.raw)}} },
+    scales:{ y:{ ticks:{callback:v=>numFmt(v)} }, x:{grid:{display:false}} }
+  }
+});
+ 
+new Chart(document.getElementById('contractValueChart'), {
+  type:'bar',
+  data:{
+    labels:['Travaux (W)','Services (S)','Fournitures (U)'],
+    datasets:[{ data:[286547, 120954, 17272], backgroundColor:[C_BLUE, C_ORANGE, C_YELLOW], borderRadius:8 }]
+  },
+  options:{ ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+numFmt(c.raw)}} },
+    scales:{ y:{ ticks:{callback:v=>numFmt(v)} }, x:{grid:{display:false}} }
+  }
+});
+ 
+const procVal = [...DATA.procedure].filter(d=>d.n>100).sort((a,b)=>b.med_value-a.med_value);
+new Chart(document.getElementById('procValueChart'), {
+  type:'bar',
+  data:{
+    labels: procVal.map(d=>d.label),
+    datasets:[{ data:procVal.map(d=>d.med_value), backgroundColor: procVal.map((_,i)=>PALETTE[i%PALETTE.length]), borderRadius:5 }]
+  },
+  options:{ ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+numFmt(c.raw)}} },
+    scales:{ x:{ ticks:{callback:v=>numFmt(v)} }, y:{grid:{display:false}} }
+  }
+});
+ 
+const cVal = [...DATA.country].sort((a,b)=>b.med_value-a.med_value);
+new Chart(document.getElementById('countryValueChart'), {
+  type:'bar',
+  data:{
+    labels: cVal.map(d=>d.ISO_COUNTRY_CODE),
+    datasets:[{ data:cVal.map(d=>d.med_value), backgroundColor: colorArray(cVal.length), borderRadius:4 }]
+  },
+  options:{ ...defaultOpts,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+numFmt(c.raw)}} },
+    scales:{ y:{ ticks:{callback:v=>numFmt(v)} }, x:{grid:{display:false}} }
+  }
+});
+ 
+const cpvVal = [...DATA.cpv].sort((a,b)=>b.med_value-a.med_value);
+new Chart(document.getElementById('cpvValueChart'), {
+  type:'bar',
+  data:{
+    labels: cpvVal.map(d=>d.label),
+    datasets:[{ data:cpvVal.map(d=>d.med_value), backgroundColor: colorArray(cpvVal.length), borderRadius:5 }]
+  },
+  options:{ ...defaultOpts,
+    indexAxis:'y',
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+numFmt(c.raw)}} },
+    scales:{ x:{ ticks:{callback:v=>numFmt(v)} }, y:{grid:{display:false},ticks:{font:{size:10}}} }
+  }
+});
+ 
+</script>
+</body>
+</html>
